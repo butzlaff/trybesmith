@@ -9,7 +9,7 @@ app.use('/user', router.userRouter);
 
 app.use('/products', router.productRouter);
 
-app.use('/order', router.orderRouter);
+app.use('/orders', router.orderRouter);
 
 app.get('/', (_req: Request, res: Response) => {
   res.status(200).send('Aplicação está funcionando!');
