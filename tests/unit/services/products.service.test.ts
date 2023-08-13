@@ -23,5 +23,44 @@ describe('Test the ProductsService', function () {
       expect(response.status).to.equal('CREATED');
       expect(response.data).to.deep.equal(product);
     });
+    it('should return status 400 and a error message "Invalid orderId" with invalid orderId', async function () {
+      const product = {
+        id: 1,
+        name: "Martelo de Thor Quebrado",
+        price: "1 peça de ouro",
+        orderId: 0,
+      }
+     
+      const response = await productsService.createProduct(product);
+  
+      expect(response.status).to.equal('INVALID_DATA');
+      expect(response.data).to.deep.equal({ message: 'Invalid orderId'});
+    });
+    it('should return status 400 and a error message "Invalid name" with invalid name', async function () {
+      const product = {
+        id: 1,
+        name: "",
+        price: "1 peça de ouro",
+        orderId: 5,
+      }
+     
+      const response = await productsService.createProduct(product);
+  
+      expect(response.status).to.equal('INVALID_DATA');
+      expect(response.data).to.deep.equal({ message: 'Invalid name'});
+    });
+    it('should return status 400 and a error message "Invalid price" with invalid price', async function () {
+      const product = {
+        id: 1,
+        name: "Martelo de Thor Quebrado",
+        price: "",
+        orderId: 5,
+      }
+     
+      const response = await productsService.createProduct(product);
+  
+      expect(response.status).to.equal('INVALID_DATA');
+      expect(response.data).to.deep.equal({ message: 'Invalid price'});
+    });
 });
 });

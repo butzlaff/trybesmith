@@ -17,8 +17,6 @@ async function createProduct(product: ProductInputtableTypes):
 Promise<ServiceResponse<ProductInputtableTypes>> {
   let response: ServiceResponse<Product>;
   const error = validateProduct(product);
-  console.log(error);
-  console.log(product);
   if (error) {
     response = { status: 'INVALID_DATA', data: { message: error } };
   } else {
