@@ -1,7 +1,8 @@
 import { expect } from 'chai';
 import sinon from 'sinon';
-import productsService from '../../../src/service/products.service';
+import ProductsService from '../../../src/service/products.service';
 import ProductModel from '../../../src/database/models/product.model';
+import productMock from '../../mocks/products.mock';
 
 describe('Test the ProductsService', function () {
   beforeEach(function () { sinon.restore(); });
@@ -18,7 +19,7 @@ describe('Test the ProductsService', function () {
 
       sinon.stub(ProductModel, 'create').resolves(productBuild);
      
-      const response = await productsService.createProduct(product);
+      const response = await ProductsService.createProduct(product);
   
       expect(response.status).to.equal('CREATED');
       expect(response.data).to.deep.equal(product);
@@ -31,7 +32,7 @@ describe('Test the ProductsService', function () {
         orderId: 0,
       }
      
-      const response = await productsService.createProduct(product);
+      const response = await ProductsService.createProduct(product);
   
       expect(response.status).to.equal('INVALID_DATA');
       expect(response.data).to.deep.equal({ message: 'Invalid orderId'});
@@ -44,7 +45,7 @@ describe('Test the ProductsService', function () {
         orderId: 5,
       }
      
-      const response = await productsService.createProduct(product);
+      const response = await ProductsService.createProduct(product);
   
       expect(response.status).to.equal('INVALID_DATA');
       expect(response.data).to.deep.equal({ message: 'Invalid name'});
@@ -57,10 +58,22 @@ describe('Test the ProductsService', function () {
         orderId: 5,
       }
      
-      const response = await productsService.createProduct(product);
+      const response = await ProductsService.createProduct(product);
   
       expect(response.status).to.equal('INVALID_DATA');
       expect(response.data).to.deep.equal({ message: 'Invalid price'});
     });
+});
+describe('Test the listAll behavior', function () {
+  it('should return status 200 and a list of products', async function () {
+
+    const productsBuild = ProductModel.bulkBuild(productMock.allProducts);
+
+    sinon.stub(ProductModel, 'findAll').resolves(productsBuild);
+    
+    const response = await ProductsService.listAll();
+    expect(response.status).to.equal('SUCCESSFUL');
+    expect(response.data).to.deep.equal(productsBuild);
+  });
 });
 });

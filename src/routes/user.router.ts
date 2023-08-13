@@ -1,8 +1,8 @@
-import { Request, Response, Router } from 'express';
+import { Router } from 'express';
+import UserController from '../controller/user.controller';
 
 const userRouter = Router();
 
-userRouter.get('/', (_req: Request, res: Response) => res
-  .status(200).json({ message: 'User created' }));
+userRouter.post('/', UserController.loginAuth);
 
 export default userRouter;

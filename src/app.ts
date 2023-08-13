@@ -5,7 +5,7 @@ const app = express();
 
 app.use(express.json());
 
-app.use('/user', router.userRouter);
+app.use('/login', router.userRouter);
 
 app.use('/products', router.productRouter);
 
