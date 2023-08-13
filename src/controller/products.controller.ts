@@ -3,9 +3,14 @@ import ProductService from '../service/products.service';
 import mapStatusHTTP from '../utils/mapStatusHTTP';
 
 async function insertProduct(req: Request, res: Response) : Promise<Response> {
-  const product = req.body;
-  const { status, data } = await ProductService.createProduct(product);
+  const { name, price, orderId } = req.body;
+  const { status, data } = await ProductService.createProduct({ name, price, orderId });
   return res.status(mapStatusHTTP(status)).json(data);
 }
 
-export default { insertProduct };
+async function listAll(_req: Request, res: Response) : Promise<Response> {
+  const { status, data } = await ProductService.listAll();
+  return res.status(mapStatusHTTP(status)).json(data);
+}
+
+export default { insertProduct, listAll };

@@ -3,7 +3,7 @@ import productController from '../controller/products.controller';
 
 const productRouter = Router();
 
-// productRouter.get('/', (_req, res) => res.status(200).json({ message: 'OK' }));
+productRouter.get('/', productController.listAll);
 
 productRouter.post('/', productController.insertProduct);
 
