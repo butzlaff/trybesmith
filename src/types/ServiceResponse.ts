@@ -1,4 +1,5 @@
-type ServiceResponseErrorType = 'INVALID_DATA' | 'UNAUTHORIZED' | 'NOT_FOUND';
+type ServiceResponseErrorType = 'INVALID_DATA' | 
+'UNAUTHORIZED' | 'NOT_FOUND' | 'FORMAT_NOT_ACCEPTABLE';
 type SUCCESSFUL = 'SUCCESSFUL' | 'CREATED';
 
 export type ServiceResponseError = {

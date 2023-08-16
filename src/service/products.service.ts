@@ -1,30 +1,23 @@
 import { ServiceResponse } from '../types/ServiceResponse';
 import ProductModel, { ProductInputtableTypes, 
   ProductSequelizeModel } from '../database/models/product.model';
-import { Product } from '../types/Product';
+import validateDataName, { ResponseJoi } from '../utils/validations/validateNamePrice';
 
-function validateProduct(product: ProductInputtableTypes): false | string {
-  if (!product.name) {
-    return 'Invalid name';
-  } if (!product.price) {
-    return 'Invalid price';
-  } if (!product.orderId) {
-    return 'Invalid orderId';
-  }
-  return false;
+function validateProduct(product: ProductInputtableTypes): false | ResponseJoi {
+  const error = validateDataName(product);
+  return error;
 } 
 
 async function createProduct(product: ProductInputtableTypes): 
 Promise<ServiceResponse<ProductInputtableTypes>> {
-  let response: ServiceResponse<Product>;
-  const error = validateProduct(product);
+  const { name, price, orderId } = product;
+  const error = validateProduct({ name, price, orderId });
   if (error) {
-    response = { status: 'INVALID_DATA', data: { message: error } };
-  } else {
-    const { dataValues } = await ProductModel.create(product);
-    response = { status: 'CREATED', data: dataValues };
+    return { status: error.status, data: { message: error.message } };
   }
-  return response;
+  // const { name, price, orderId = 0 } = product;
+  const { dataValues } = await ProductModel.create({ name, price, orderId });
+  return { status: 'CREATED', data: dataValues };
 }
 
 async function listAll(): Promise<ServiceResponse<ProductSequelizeModel[]>> {

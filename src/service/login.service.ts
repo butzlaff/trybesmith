@@ -11,13 +11,13 @@ async function loginAuth({ username, password }: Login): Promise<ServiceResponse
   }
   
   const foundUser = await UserModel.findOne({ where: { username } });
-  // const pass = await bcrypt.compare(password, foundUser.dataValues.password);
+
   if (!foundUser || !bcrypt.compareSync(password, foundUser.dataValues.password)) {
     return { status: 'UNAUTHORIZED', data: { message: 'Username or password invalid' } };
   }
-  // console.log(pass);
-  const { id } = foundUser.dataValues;
   
+  const { id } = foundUser.dataValues;
+
   const token = jwtUtil.sign({ id, username });
   
   return { status: 'SUCCESSFUL', data: { token } };

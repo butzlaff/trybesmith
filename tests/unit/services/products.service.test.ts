@@ -24,7 +24,7 @@ describe('Test the ProductsService', function () {
       expect(response.status).to.equal('CREATED');
       expect(response.data).to.deep.equal(product);
     });
-    it('should return status 400 and a error message "Invalid orderId" with invalid orderId', async function () {
+    it('should return status "FORMAT_NOT_ACCEPTABLE" and a error message "Invalid orderId" with invalid orderId', async function () {
       const product = {
         id: 1,
         name: "Martelo de Thor Quebrado",
@@ -34,10 +34,10 @@ describe('Test the ProductsService', function () {
      
       const response = await ProductsService.createProduct(product);
   
-      expect(response.status).to.equal('INVALID_DATA');
-      expect(response.data).to.deep.equal({ message: 'Invalid orderId'});
+      expect(response.status).to.equal('FORMAT_NOT_ACCEPTABLE');
+      expect(response.data).to.deep.equal({ message: "\"orderId\" must be a positive number" });
     });
-    it('should return status 400 and a error message "Invalid name" with invalid name', async function () {
+    it('should return status "FORMAT_NOT_ACCEPTABLE" and a error message "Invalid name" with invalid name', async function () {
       const product = {
         id: 1,
         name: "",
@@ -47,10 +47,10 @@ describe('Test the ProductsService', function () {
      
       const response = await ProductsService.createProduct(product);
   
-      expect(response.status).to.equal('INVALID_DATA');
-      expect(response.data).to.deep.equal({ message: 'Invalid name'});
+      expect(response.status).to.equal('FORMAT_NOT_ACCEPTABLE');
+      expect(response.data).to.deep.equal({ message: "\"name\" is not allowed to be empty"});
     });
-    it('should return status 400 and a error message "Invalid price" with invalid price', async function () {
+    it('should return status "FORMAT_NOT_ACCEPTABLE" and a error message "Invalid price" with invalid price', async function () {
       const product = {
         id: 1,
         name: "Martelo de Thor Quebrado",
@@ -60,9 +60,23 @@ describe('Test the ProductsService', function () {
      
       const response = await ProductsService.createProduct(product);
   
-      expect(response.status).to.equal('INVALID_DATA');
-      expect(response.data).to.deep.equal({ message: 'Invalid price'});
+      expect(response.status).to.equal('FORMAT_NOT_ACCEPTABLE');
+      expect(response.data).to.deep.equal({ message: "\"price\" is not allowed to be empty"});
     });
+    // it('should return status 400 and a error message "Invalid price" with invalid price', async function () {
+    //   const product = {
+    //     id: 1,
+    //     name: '1',
+    //     price: "1 peça de ouro",
+    //   }
+
+    //   const { name, price } = product;
+     
+    //   const response = await ProductsService.createProduct(product);
+  
+    //   expect(response.status).to.equal('INVALID_DATA');
+    //   expect(response.data).to.deep.equal({ message: "\"price\" is not allowed to be empty"});
+    // });
 });
 describe('Test the listAll behavior', function () {
   it('should return status 200 and a list of products', async function () {
